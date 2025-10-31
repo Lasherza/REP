@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        #log {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Button Test</h1>
+    <p>Type at least 20 characters to enable the button:</p>
+    
+    <textarea id="mission-input" rows="4" placeholder="Type your mission here..."></textarea>
+    <div>
+        <span id="char-count">0 characters</span>
+    </div>
+    <br>
+    <button id="start-mission" disabled>Start Mission</button>
+    
+    <div id="log"></div>
+    
+    <script>
+        const log = document.getElementById('log');
+        function addLog(message) {
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML += `[${time}] ${message}<br>`;
+        }
+        
+        addLog('Script started');
+        
+        const missionInput = document.getElementById('mission-input');
+        const charCount = document.getElementById('char-count');
+        const startMissionBtn = document.getElementById('start-mission');
+        
+        addLog(`Elements found: input=${!!missionInput}, button=${!!startMissionBtn}`);
+        
+        missionInput.addEventListener('input', () => {
+            const value = missionInput.value.trim();
+            const length = value.length;
+            charCount.textContent = `${length} characters`;
+            startMissionBtn.disabled = length < 20;
+            addLog(`Input changed: ${length} chars, button ${startMissionBtn.disabled ? 'disabled' : 'enabled'}`);
+        });
+        
+        startMissionBtn.addEventListener('click', () => {
+            addLog('?? BUTTON CLICKED! Button is working correctly.');
+            alert('Button works! The issue is elsewhere in the main app.');
+        });
+        
+        addLog('Event listeners attached successfully');
+    </script>
+</body>
+</html>

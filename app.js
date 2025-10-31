@@ -55,10 +55,18 @@ class App {
      * Initialize UI element references
      */
     initializeUIElements() {
-        // Input elements
-        this.missionInput = document.getElementById('mission-input');
-        this.charCount = document.getElementById('char-count');
-        this.startMissionBtn = document.getElementById('start-mission');
+        try {
+            // Input elements
+            this.missionInput = document.getElementById('mission-input');
+            this.charCount = document.getElementById('char-count');
+            this.startMissionBtn = document.getElementById('start-mission');
+            
+            if (!this.missionInput || !this.startMissionBtn) {
+                console.error('Critical elements missing:', {
+                    missionInput: !!this.missionInput,
+                    startMissionBtn: !!this.startMissionBtn
+                });
+            }
 
         // Section containers
         this.missionInputSection = document.getElementById('mission-input-section');
@@ -116,15 +124,25 @@ class App {
 
         // Set results renderer container
         this.resultsRenderer.setContainer(this.resultsContainer);
+        
+        console.log('? UI elements initialized successfully');
+        } catch (error) {
+            console.error('? Error initializing UI elements:', error);
+            throw error;
+        }
     }
 
     /**
      * Set up event listeners
      */
     setupEventListeners() {
-        // Mission input
-        this.missionInput.addEventListener('input', () => this.handleMissionInput());
-        this.startMissionBtn.addEventListener('click', () => this.handleStartMission());
+        try {
+            console.log('Setting up event listeners...');
+            
+            // Mission input
+            this.missionInput.addEventListener('input', () => this.handleMissionInput());
+            this.startMissionBtn.addEventListener('click', () => this.handleStartMission());
+            console.log('? Mission input listeners set up');
 
         // Breakdown controls
         this.editBreakdownBtn.addEventListener('click', () => this.handleEditBreakdown());
@@ -174,6 +192,12 @@ class App {
                 this.closeSettings();
             }
         });
+        
+        console.log('? All event listeners set up successfully');
+        } catch (error) {
+            console.error('? Error setting up event listeners:', error);
+            throw error;
+        }
     }
 
     /**
@@ -185,13 +209,16 @@ class App {
 
         this.charCount.textContent = `${length} characters`;
         this.startMissionBtn.disabled = length < 20;
+        console.log(`Input: ${length} chars, button ${this.startMissionBtn.disabled ? 'disabled' : 'enabled'}`);
     }
 
     /**
      * Handle start mission
      */
     async handleStartMission() {
+        console.log('?? handleStartMission called!');
         const mission = this.missionInput.value.trim();
+        console.log('Mission text:', mission);
 
         // Validate mission
         const validation = this.missionPlanner.validateMission(mission);

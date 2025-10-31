@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Console</title>
+</head>
+<body>
+    <h1>Check Console for Errors</h1>
+    <p>Open browser console (F12) to see any JavaScript errors</p>
+    
+    <script type="module">
+        import TavilyClient from './tavily-client.js';
+        import StateManager from './state-manager.js';
+        import DocumentParser from './document-parser.js';
+        import MissionPlanner from './mission-planner.js';
+        import StepExecutor from './step-executor.js';
+        import ResultsRenderer from './results-renderer.js';
+        
+        console.log('All modules loaded successfully!');
+        console.log('TavilyClient:', TavilyClient);
+        console.log('StateManager:', StateManager);
+        console.log('DocumentParser:', DocumentParser);
+        console.log('MissionPlanner:', MissionPlanner);
+        console.log('StepExecutor:', StepExecutor);
+        console.log('ResultsRenderer:', ResultsRenderer);
+        
+        // Try creating instances
+        try {
+            const stateManager = new StateManager();
+            const tavilyClient = new TavilyClient(null);
+            const documentParser = new DocumentParser();
+            const missionPlanner = new MissionPlanner();
+            const stepExecutor = new StepExecutor(tavilyClient);
+            const resultsRenderer = new ResultsRenderer();
+            console.log('? All instances created successfully!');
+        } catch (error) {
+            console.error('? Error creating instances:', error);
+        }
+    </script>
+</body>
+</html>
