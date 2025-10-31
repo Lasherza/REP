@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research & Analysis Agent</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>?? AI Research & Analysis Agent</h1>
+            <p class="subtitle">Autonomous research powered by AI</p>
+            <div class="theme-toggle">
+                <button id="themeToggle" class="theme-btn">?? Dark Mode</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Mission Input Section -->
+            <section id="inputSection" class="section active">
+                <div class="card">
+                    <h2>?? Research Mission</h2>
+                    <p class="help-text">Describe what you want to research. Be specific and clear.</p>
+                    
+                    <textarea 
+                        id="missionInput" 
+                        placeholder="Example: Research the latest developments in quantum computing and their potential applications in cryptography..."
+                        rows="6"
+                    ></textarea>
+
+                    <div class="examples">
+                        <p class="examples-title">?? Example Missions:</p>
+                        <button class="example-btn" data-example="Research the current state of renewable energy adoption in Europe, including key trends, challenges, and leading countries.">
+                            Renewable Energy in Europe
+                        </button>
+                        <button class="example-btn" data-example="Analyze the impact of artificial intelligence on the healthcare industry, focusing on diagnostics, treatment planning, and patient care.">
+                            AI in Healthcare
+                        </button>
+                        <button class="example-btn" data-example="Investigate the latest trends in remote work technology and their effects on productivity and employee satisfaction.">
+                            Remote Work Technology
+                        </button>
+                    </div>
+
+                    <button id="startBtn" class="primary-btn">
+                        Start Research ??
+                    </button>
+                </div>
+            </section>
+
+            <!-- Planning Section -->
+            <section id="planningSection" class="section">
+                <div class="card">
+                    <h2>?? Research Plan</h2>
+                    <p class="help-text">Review the proposed research steps</p>
+                    
+                    <div id="planningStatus" class="status-message">
+                        <div class="spinner"></div>
+                        <span>AI is creating a research plan...</span>
+                    </div>
+
+                    <div id="planDisplay" class="plan-display hidden">
+                        <div id="missionDisplay" class="mission-display"></div>
+                        <div id="stepsContainer" class="steps-container"></div>
+                        
+                        <div class="action-buttons">
+                            <button id="executePlanBtn" class="primary-btn">
+                                Execute Plan ??
+                            </button>
+                            <button id="modifyPlanBtn" class="secondary-btn">
+                                ? Modify Mission
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Execution Section -->
+            <section id="executionSection" class="section">
+                <div class="card">
+                    <h2>?? Execution in Progress</h2>
+                    
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <p id="progressText" class="progress-text">Step 0 of 0</p>
+
+                    <div id="executionSteps" class="execution-steps"></div>
+
+                    <div id="executionStatus" class="status-message">
+                        <div class="spinner"></div>
+                        <span>Processing research steps...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="section">
+                <div class="card">
+                    <h2>?? Research Report</h2>
+                    
+                    <div class="report-actions">
+                        <button id="exportMarkdownBtn" class="action-btn">
+                            ?? Export Markdown
+                        </button>
+                        <button id="newResearchBtn" class="action-btn">
+                            ?? New Research
+                        </button>
+                    </div>
+
+                    <div id="reportContent" class="report-content"></div>
+
+                    <div id="sourcesSection" class="sources-section hidden">
+                        <h3>?? Sources</h3>
+                        <div id="sourcesList" class="sources-list"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>Powered by OpenAI & Tavily ? Built with ??</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
