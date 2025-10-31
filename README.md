@@ -165,6 +165,21 @@ The agent can analyze existing Method of Procedure (MOP) documents, runbooks, or
 
 ### Example Missions
 
+The application includes **8 pre-built mission examples** that you can click to auto-fill:
+
+1. **Cloud Migration Risk Assessment** - Analyze database migration to AWS RDS with full ITIL 4 risk analysis
+2. **DevOps Transformation Analysis** - Assess CI/CD pipeline implementation and change velocity
+3. **Patch Management Strategy** - Develop automated patching with testing and rollback plans
+4. **Compliance Certification** - Evaluate SOC 2 Type II compliance requirements
+5. **Disaster Recovery Planning** - Design comprehensive DR/BC plan with RTO/RPO analysis
+6. **Major Version Upgrade** - Plan application upgrade with compatibility assessment
+7. **Zero-Trust Security Implementation** - Design zero-trust architecture migration
+8. **System Consolidation & ERP** - Evaluate legacy system consolidation
+
+**Click any example card** on the main page to instantly fill the mission field with a complete, ready-to-execute mission description.
+
+**Or write your own custom missions:**
+
 **Change Risk Assessment**:
 ```
 Analyze the risks and benefits of implementing a DevOps transformation 

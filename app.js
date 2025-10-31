@@ -192,12 +192,39 @@ class App {
                 this.closeSettings();
             }
         });
+
+        // Example mission cards
+        this.setupExampleMissions();
         
         console.log('? All event listeners set up successfully');
         } catch (error) {
             console.error('? Error setting up event listeners:', error);
             throw error;
         }
+    }
+
+    /**
+     * Set up example mission click handlers
+     */
+    setupExampleMissions() {
+        const exampleCards = document.querySelectorAll('.example-card');
+        exampleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const mission = card.getAttribute('data-mission');
+                if (mission) {
+                    this.missionInput.value = mission;
+                    this.handleMissionInput();
+                    // Smooth scroll to mission input
+                    this.missionInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Focus the textarea
+                    setTimeout(() => {
+                        this.missionInput.focus();
+                    }, 500);
+                    console.log('Example mission loaded:', card.querySelector('h4').textContent);
+                }
+            });
+        });
+        console.log(`${exampleCards.length} example missions configured`);
     }
 
     /**
