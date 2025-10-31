@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITIL 4 Change Enablement Research Agent</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1>
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                    ITIL 4 Change Enablement Agent
+                </h1>
+                <div class="header-controls">
+                    <button id="theme-toggle" class="icon-button" title="Toggle theme">
+                        <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button id="settings-button" class="icon-button" title="Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m8-8h-6m-6 0H2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h2>Mission History</h2>
+                    <button id="clear-history" class="text-button" title="Clear all history">Clear</button>
+                </div>
+                <div class="history-list" id="history-list">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                        <p>No missions yet</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Panel -->
+            <main class="main-panel">
+                <!-- Mission Input Section -->
+                <section class="mission-input-section" id="mission-input-section">
+                    <div class="section-header">
+                        <h2>Define Your Mission</h2>
+                        <p class="section-description">
+                            Describe the change enablement research or analysis task you need. 
+                            The agent will break it down using ITIL 4 principles and conduct thorough research.
+                        </p>
+                    </div>
+                    
+                    <div class="input-container">
+                        <textarea 
+                            id="mission-input" 
+                            class="mission-textarea"
+                            placeholder="Example: Analyze the risks of migrating our customer database to cloud infrastructure, considering ITIL 4 change management principles..."
+                            rows="6"
+                        ></textarea>
+                        
+                        <div class="input-controls">
+                            <div class="input-info">
+                                <span id="char-count">0 characters</span>
+                            </div>
+                            <button id="start-mission" class="primary-button" disabled>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                                Start Mission
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ITIL 4 Quick Reference -->
+                    <div class="quick-reference">
+                        <h3>ITIL 4 Quick Reference</h3>
+                        <div class="reference-grid">
+                            <div class="reference-card">
+                                <h4>7 Guiding Principles</h4>
+                                <ul>
+                                    <li>Focus on value</li>
+                                    <li>Start where you are</li>
+                                    <li>Progress iteratively</li>
+                                    <li>Collaborate & promote visibility</li>
+                                    <li>Think and work holistically</li>
+                                    <li>Keep it simple and practical</li>
+                                    <li>Optimize and automate</li>
+                                </ul>
+                            </div>
+                            <div class="reference-card">
+                                <h4>4 Dimensions</h4>
+                                <ul>
+                                    <li>Organizations and people</li>
+                                    <li>Information and technology</li>
+                                    <li>Partners and suppliers</li>
+                                    <li>Value streams and processes</li>
+                                </ul>
+                            </div>
+                            <div class="reference-card">
+                                <h4>Change Assessment</h4>
+                                <ul>
+                                    <li>Risk level (High/Medium/Low)</li>
+                                    <li>Impact and urgency</li>
+                                    <li>Resource requirements</li>
+                                    <li>Success criteria</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mission Breakdown Section -->
+                <section class="mission-breakdown-section hidden" id="mission-breakdown-section">
+                    <div class="section-header">
+                        <h2>Mission Breakdown</h2>
+                        <p class="section-description">
+                            Your mission has been analyzed and broken down into the following steps:
+                        </p>
+                    </div>
+                    
+                    <div class="breakdown-container" id="breakdown-container">
+                        <!-- Steps will be dynamically inserted here -->
+                    </div>
+
+                    <div class="breakdown-controls">
+                        <button id="edit-breakdown" class="secondary-button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            Edit Steps
+                        </button>
+                        <button id="execute-mission" class="primary-button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                            Execute Mission
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Execution Progress Section -->
+                <section class="execution-section hidden" id="execution-section">
+                    <div class="section-header">
+                        <h2>Mission Execution</h2>
+                        <div class="execution-status">
+                            <span class="status-badge" id="execution-status">In Progress</span>
+                            <span class="progress-text" id="progress-text">Step 0 of 0</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+
+                    <div class="steps-container" id="steps-container">
+                        <!-- Execution steps will be dynamically inserted here -->
+                    </div>
+                </section>
+
+                <!-- Results Section -->
+                <section class="results-section hidden" id="results-section">
+                    <div class="section-header">
+                        <h2>Mission Results</h2>
+                        <div class="results-controls">
+                            <button id="export-markdown" class="secondary-button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                                Export as Markdown
+                            </button>
+                            <button id="export-json" class="secondary-button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                                Export as JSON
+                            </button>
+                            <button id="new-mission" class="primary-button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <line x1="12" y1="5" x2="12" y2="19"/>
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                </svg>
+                                New Mission
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="results-container" id="results-container">
+                        <!-- Results will be dynamically inserted here -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal hidden" id="settings-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="close-button" id="close-settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>Tavily API Configuration</h3>
+                        <p class="help-text">
+                            Enter your Tavily API key to enable web research capabilities. 
+                            Get your free API key at <a href="https://tavily.com" target="_blank">tavily.com</a>.
+                        </p>
+                        <div class="input-group">
+                            <label for="api-key-input">API Key</label>
+                            <input 
+                                type="password" 
+                                id="api-key-input" 
+                                placeholder="tvly-xxxxxxxxxxxxxxxxxxxxxxxx"
+                                class="text-input"
+                            />
+                            <button id="toggle-api-key" class="text-button">Show</button>
+                        </div>
+                        <div class="api-status" id="api-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Not configured</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Search Settings</h3>
+                        <div class="input-group">
+                            <label for="max-results">Maximum results per search</label>
+                            <input 
+                                type="number" 
+                                id="max-results" 
+                                value="5" 
+                                min="1" 
+                                max="10"
+                                class="text-input"
+                            />
+                        </div>
+                        <div class="input-group">
+                            <label for="search-depth">Search depth</label>
+                            <select id="search-depth" class="select-input">
+                                <option value="basic">Basic</option>
+                                <option value="advanced" selected>Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="save-settings" class="primary-button">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="tavily-client.js"></script>
+    <script type="module" src="state-manager.js"></script>
+    <script type="module" src="mission-planner.js"></script>
+    <script type="module" src="step-executor.js"></script>
+    <script type="module" src="results-renderer.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
