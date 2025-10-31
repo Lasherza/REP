@@ -14,10 +14,11 @@ A sophisticated web-based AI agent designed to conduct research and analysis for
 - **ITIL 4 Framework Integration**: Built-in understanding of ITIL 4 principles, dimensions, and change enablement best practices
 - **Intelligent Mission Planning**: Automatically breaks down complex missions into logical, executable steps (adapts based on uploaded documents)
 - **Web Research Capability**: Integrates with Tavily API for comprehensive web-based research
-- **Real-Time Progress Tracking**: Watch your mission execute step-by-step with live progress indicators
+- **Enhanced Progress Visualization**: Beautiful step timeline, animated progress bar with glow effects, real-time statistics, and elapsed time tracking
 - **Comprehensive Reporting**: Generates detailed reports with executive summaries, findings, risks, and recommendations
 - **Mission History**: Keeps track of all your research missions with localStorage persistence
 - **Export Functionality**: Export reports as Markdown or JSON for documentation and sharing
+- **8 Pre-Built Examples**: Click-to-fill mission examples covering common change scenarios
 
 ### User Interface
 

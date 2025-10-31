@@ -425,6 +425,7 @@ class App {
             console.error('Execution error:', error);
             this.executionStatus.textContent = 'Error';
             this.executionStatus.className = 'status-badge error';
+            this.stopElapsedTime();
             alert(`Mission execution failed: ${error.message}`);
         }
     }
@@ -439,6 +440,104 @@ class App {
         this.executionStatus.textContent = 'In Progress';
         this.executionStatus.className = 'status-badge in-progress';
         this.executionResults = [];
+        
+        // Initialize timeline
+        this.initializeTimeline();
+        
+        // Initialize progress markers
+        this.initializeProgressMarkers();
+        
+        // Initialize stats
+        this.updateExecutionStats(0, 0, this.currentSteps.length);
+        
+        // Start elapsed time counter
+        this.startElapsedTime();
+    }
+
+    /**
+     * Initialize step timeline
+     */
+    initializeTimeline() {
+        const timeline = document.getElementById('step-timeline');
+        timeline.innerHTML = '';
+        
+        this.currentSteps.forEach((step, index) => {
+            const item = document.createElement('div');
+            item.className = 'timeline-item pending';
+            item.id = `timeline-${index}`;
+            item.innerHTML = `
+                <div class="timeline-dot">${index + 1}</div>
+                <div class="timeline-label">${this.truncateText(step.title, 15)}</div>
+            `;
+            timeline.appendChild(item);
+        });
+    }
+
+    /**
+     * Initialize progress markers
+     */
+    initializeProgressMarkers() {
+        const markers = document.getElementById('progress-markers');
+        markers.innerHTML = '';
+        
+        // Add markers for each step (except first and last)
+        for (let i = 1; i < this.currentSteps.length; i++) {
+            const marker = document.createElement('div');
+            marker.className = 'progress-marker';
+            marker.style.left = `${(i / this.currentSteps.length) * 100}%`;
+            markers.appendChild(marker);
+        }
+    }
+
+    /**
+     * Start elapsed time counter
+     */
+    startElapsedTime() {
+        this.executionStartTime = Date.now();
+        this.elapsedTimeInterval = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - this.executionStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            const timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('elapsed-time').textContent = timeString;
+        }, 1000);
+    }
+
+    /**
+     * Stop elapsed time counter
+     */
+    stopElapsedTime() {
+        if (this.elapsedTimeInterval) {
+            clearInterval(this.elapsedTimeInterval);
+            this.elapsedTimeInterval = null;
+        }
+    }
+
+    /**
+     * Update execution statistics
+     */
+    updateExecutionStats(completed, active, pending) {
+        document.getElementById('completed-count').textContent = completed;
+        document.getElementById('active-count').textContent = active;
+        document.getElementById('pending-count').textContent = pending;
+    }
+
+    /**
+     * Update timeline item status
+     */
+    updateTimelineItem(index, status) {
+        const item = document.getElementById(`timeline-${index}`);
+        if (item) {
+            item.className = `timeline-item ${status}`;
+            if (status === 'completed') {
+                const dot = item.querySelector('.timeline-dot');
+                dot.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                `;
+            }
+        }
     }
 
     /**
@@ -448,6 +547,15 @@ class App {
         if (progress.type === 'step_start') {
             this.addExecutionStep(progress.step, progress.stepIndex);
             this.progressText.textContent = `Step ${progress.stepIndex + 1} of ${this.currentSteps.length}`;
+            
+            // Update timeline
+            this.updateTimelineItem(progress.stepIndex, 'active');
+            
+            // Update stats
+            const completed = progress.stepIndex;
+            const active = 1;
+            const pending = this.currentSteps.length - progress.stepIndex - 1;
+            this.updateExecutionStats(completed, active, pending);
         }
 
         if (progress.type === 'step_progress') {
@@ -458,6 +566,20 @@ class App {
             this.completeExecutionStep(progress.stepIndex, progress.result);
             this.executionResults.push(progress.result);
             this.progressBar.style.width = `${progress.progress}%`;
+            
+            // Update timeline
+            this.updateTimelineItem(progress.stepIndex, 'completed');
+            
+            // Update stats
+            const completed = progress.stepIndex + 1;
+            const active = completed < this.currentSteps.length ? 1 : 0;
+            const pending = this.currentSteps.length - completed - active;
+            this.updateExecutionStats(completed, active, pending);
+            
+            // Stop timer when complete
+            if (completed === this.currentSteps.length) {
+                this.stopElapsedTime();
+            }
         }
     }
 

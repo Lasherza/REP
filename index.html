@@ -376,11 +376,64 @@
                         <div class="execution-status">
                             <span class="status-badge" id="execution-status">In Progress</span>
                             <span class="progress-text" id="progress-text">Step 0 of 0</span>
+                            <span class="elapsed-time" id="elapsed-time">00:00</span>
                         </div>
                     </div>
 
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="progress-bar"></div>
+                    <!-- Enhanced Progress Visualization -->
+                    <div class="progress-visualization">
+                        <!-- Step Timeline -->
+                        <div class="step-timeline" id="step-timeline">
+                            <!-- Timeline items will be dynamically inserted -->
+                        </div>
+
+                        <!-- Enhanced Progress Bar with Markers -->
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar">
+                                <div class="progress-bar-glow"></div>
+                            </div>
+                            <div class="progress-markers" id="progress-markers">
+                                <!-- Step markers will be dynamically inserted -->
+                            </div>
+                        </div>
+
+                        <!-- Stats Overview -->
+                        <div class="execution-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon completed-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="completed-count">0</span>
+                                    <span class="stat-label">Completed</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon active-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                    </svg>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="active-count">0</span>
+                                    <span class="stat-label">In Progress</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon pending-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="pending-count">0</span>
+                                    <span class="stat-label">Pending</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="steps-container" id="steps-container">
