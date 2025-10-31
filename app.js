@@ -5,6 +5,7 @@
 
 import TavilyClient from './tavily-client.js';
 import StateManager from './state-manager.js';
+import DocumentParser from './document-parser.js';
 import MissionPlanner from './mission-planner.js';
 import StepExecutor from './step-executor.js';
 import ResultsRenderer from './results-renderer.js';
@@ -13,6 +14,7 @@ class App {
     constructor() {
         this.stateManager = new StateManager();
         this.tavilyClient = new TavilyClient(this.stateManager.getApiKey());
+        this.documentParser = new DocumentParser();
         this.missionPlanner = new MissionPlanner();
         this.stepExecutor = new StepExecutor(this.tavilyClient);
         this.resultsRenderer = new ResultsRenderer();
@@ -20,6 +22,7 @@ class App {
         this.currentMission = null;
         this.currentSteps = [];
         this.executionResults = [];
+        this.currentDocument = null;
 
         this.init();
     }
@@ -98,6 +101,19 @@ class App {
         // Theme toggle
         this.themeToggle = document.getElementById('theme-toggle');
 
+        // Document upload elements
+        this.uploadDropzone = document.getElementById('upload-dropzone');
+        this.fileInput = document.getElementById('file-input');
+        this.uploadedDocument = document.getElementById('uploaded-document');
+        this.documentName = document.getElementById('document-name');
+        this.documentMeta = document.getElementById('document-meta');
+        this.documentCharacteristics = document.getElementById('document-characteristics');
+        this.documentScoreFill = document.getElementById('document-score-fill');
+        this.documentScoreValue = document.getElementById('document-score-value');
+        this.alignmentStrengths = document.getElementById('alignment-strengths');
+        this.alignmentGaps = document.getElementById('alignment-gaps');
+        this.removeDocumentBtn = document.getElementById('remove-document');
+
         // Set results renderer container
         this.resultsRenderer.setContainer(this.resultsContainer);
     }
@@ -130,6 +146,27 @@ class App {
 
         // Theme toggle
         this.themeToggle.addEventListener('click', () => this.toggleTheme());
+
+        // Document upload
+        this.uploadDropzone.addEventListener('click', () => this.fileInput.click());
+        this.fileInput.addEventListener('change', (e) => this.handleFileUpload(e));
+        this.removeDocumentBtn.addEventListener('click', () => this.handleRemoveDocument());
+        
+        // Drag and drop
+        this.uploadDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            this.uploadDropzone.classList.add('dragover');
+        });
+        this.uploadDropzone.addEventListener('dragleave', () => {
+            this.uploadDropzone.classList.remove('dragover');
+        });
+        this.uploadDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            this.uploadDropzone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                this.handleFileUpload({ target: { files: e.dataTransfer.files } });
+            }
+        });
 
         // Close modal on backdrop click
         this.settingsModal.addEventListener('click', (e) => {
@@ -170,14 +207,116 @@ class App {
             return;
         }
 
-        // Plan the mission
-        const steps = this.missionPlanner.planMission(mission);
+        // Plan the mission (with optional document)
+        const document = this.stateManager.getCurrentDocument();
+        const steps = this.missionPlanner.planMission(mission, document);
         this.currentMission = mission;
         this.currentSteps = steps;
 
         // Show breakdown section
         this.showSection('breakdown');
         this.renderBreakdown(steps);
+    }
+
+    /**
+     * Handle file upload
+     */
+    async handleFileUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+            // Show loading state
+            this.uploadDropzone.style.opacity = '0.5';
+            this.uploadDropzone.style.pointerEvents = 'none';
+
+            // Parse the document
+            const parsedDocument = await this.documentParser.parseFile(file);
+            
+            // Get ITIL 4 alignment assessment
+            const itil4Assessment = this.documentParser.assessITIL4Alignment(
+                parsedDocument.analysis,
+                parsedDocument.content
+            );
+            parsedDocument.itil4Assessment = itil4Assessment;
+
+            // Store in state
+            this.stateManager.setCurrentDocument(parsedDocument);
+            this.currentDocument = parsedDocument;
+
+            // Display the document
+            this.displayUploadedDocument(parsedDocument);
+
+            // Reset file input
+            this.fileInput.value = '';
+
+        } catch (error) {
+            console.error('File upload error:', error);
+            alert(`Failed to upload file: ${error.message}`);
+        } finally {
+            this.uploadDropzone.style.opacity = '1';
+            this.uploadDropzone.style.pointerEvents = 'auto';
+        }
+    }
+
+    /**
+     * Display uploaded document information
+     */
+    displayUploadedDocument(document) {
+        // Hide dropzone, show document info
+        this.uploadDropzone.classList.add('hidden');
+        this.uploadedDocument.classList.remove('hidden');
+
+        // Set document name and metadata
+        this.documentName.textContent = document.filename;
+        const sizeKB = (document.size / 1024).toFixed(2);
+        this.documentMeta.textContent = `Type: ${document.analysis.type} | Steps: ${document.analysis.stepCount} | Size: ${sizeKB} KB`;
+
+        // Display characteristics
+        this.documentCharacteristics.innerHTML = '';
+        document.analysis.characteristics.forEach(char => {
+            const tag = document.createElement('span');
+            tag.className = 'characteristic-tag';
+            if (char.toLowerCase().includes('rollback') || char.toLowerCase().includes('validation')) {
+                tag.classList.add('positive');
+            }
+            tag.textContent = char;
+            this.documentCharacteristics.appendChild(tag);
+        });
+
+        // Display ITIL 4 alignment score
+        const assessment = document.itil4Assessment;
+        this.documentScoreFill.style.width = `${assessment.score}%`;
+        this.documentScoreValue.textContent = `${assessment.score}%`;
+
+        // Display strengths
+        const strengthsList = this.alignmentStrengths.querySelector('ul');
+        strengthsList.innerHTML = '';
+        assessment.strengths.forEach(strength => {
+            const li = document.createElement('li');
+            li.textContent = strength;
+            strengthsList.appendChild(li);
+        });
+
+        // Display gaps
+        const gapsList = this.alignmentGaps.querySelector('ul');
+        gapsList.innerHTML = '';
+        assessment.gaps.forEach(gap => {
+            const li = document.createElement('li');
+            li.textContent = gap;
+            gapsList.appendChild(li);
+        });
+    }
+
+    /**
+     * Handle remove document
+     */
+    handleRemoveDocument() {
+        this.stateManager.clearCurrentDocument();
+        this.currentDocument = null;
+        this.uploadDropzone.classList.remove('hidden');
+        this.uploadedDocument.classList.add('hidden');
+        this.fileInput.value = '';
     }
 
     /**
@@ -493,6 +632,12 @@ class App {
         this.executionResults = [];
         this.missionInput.value = '';
         this.handleMissionInput();
+        
+        // Clear document if present
+        if (this.currentDocument) {
+            this.handleRemoveDocument();
+        }
+        
         this.showSection('input');
     }
 

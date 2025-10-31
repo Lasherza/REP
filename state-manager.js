@@ -34,7 +34,8 @@ export class StateManager {
                 theme: 'light'
             },
             missions: [],
-            currentMission: null
+            currentMission: null,
+            currentDocument: null // Store currently uploaded document
         };
     }
 
@@ -186,6 +187,35 @@ export class StateManager {
      */
     clearCurrentMission() {
         this.state.currentMission = null;
+    }
+
+    /**
+     * Set current document
+     */
+    setCurrentDocument(document) {
+        this.state.currentDocument = document;
+        // Don't save to localStorage - current document is session-based
+    }
+
+    /**
+     * Get current document
+     */
+    getCurrentDocument() {
+        return this.state.currentDocument;
+    }
+
+    /**
+     * Clear current document
+     */
+    clearCurrentDocument() {
+        this.state.currentDocument = null;
+    }
+
+    /**
+     * Check if document is uploaded
+     */
+    hasDocument() {
+        return !!this.state.currentDocument;
     }
 
     /**

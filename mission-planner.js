@@ -35,14 +35,27 @@ export class MissionPlanner {
     /**
      * Plan a mission by breaking it down into logical steps
      * @param {string} mission - The mission description
+     * @param {object} document - Optional uploaded MOP document
      * @returns {Array<object>} Array of steps
      */
-    planMission(mission) {
+    planMission(mission, document = null) {
         const missionLower = mission.toLowerCase();
         const steps = [];
 
         // Analyze the mission to determine what type of analysis is needed
         const analysisTypes = this.identifyAnalysisTypes(missionLower);
+
+        // If document is provided, add document analysis step first
+        if (document) {
+            steps.push({
+                id: this.generateStepId(),
+                title: 'Analyze MOP Document Against ITIL 4 Standards',
+                description: `Review the uploaded ${document.analysis.type} document for completeness, risk coverage, and ITIL 4 alignment.`,
+                query: `${document.analysis.type} ITIL 4 best practices ${this.extractKeyTerms(mission).join(' ')}`,
+                type: 'document_analysis',
+                documentRef: true
+            });
+        }
 
         // Step 1: Always start with ITIL 4 framework research
         steps.push({
@@ -113,6 +126,44 @@ export class MissionPlanner {
                 query: `${this.extractKeyTerms(mission).join(' ')} stakeholders communication change management`,
                 type: 'stakeholder_analysis'
             });
+        }
+
+        // Add MOP-specific analysis steps if document is provided
+        if (document) {
+            // Check for gaps in the MOP
+            if (!document.analysis.hasRollback) {
+                steps.push({
+                    id: this.generateStepId(),
+                    title: 'Research Rollback Procedures Best Practices',
+                    description: 'Since the MOP lacks rollback procedures, research industry standards for rollback planning.',
+                    query: `${this.extractKeyTerms(mission).join(' ')} rollback procedures backout plan best practices`,
+                    type: 'mop_gap_analysis',
+                    documentRef: true
+                });
+            }
+
+            if (!document.analysis.hasValidation) {
+                steps.push({
+                    id: this.generateStepId(),
+                    title: 'Research Validation and Testing Requirements',
+                    description: 'Since the MOP lacks validation steps, research testing and verification best practices.',
+                    query: `${this.extractKeyTerms(mission).join(' ')} validation testing verification requirements`,
+                    type: 'mop_gap_analysis',
+                    documentRef: true
+                });
+            }
+
+            // Add procedure analysis if steps exist
+            if (document.analysis.stepCount > 0) {
+                steps.push({
+                    id: this.generateStepId(),
+                    title: 'Validate MOP Procedures Against Industry Standards',
+                    description: `Review the ${document.analysis.stepCount} steps in the MOP for completeness and best practices alignment.`,
+                    query: `${this.extractKeyTerms(mission).join(' ')} procedure validation change implementation standards`,
+                    type: 'procedure_validation',
+                    documentRef: true
+                });
+            }
         }
 
         // Step: Research similar industry experiences

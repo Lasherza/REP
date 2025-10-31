@@ -10,8 +10,9 @@ A sophisticated web-based AI agent designed to conduct research and analysis for
 ### Core Capabilities
 
 - **Mission-Based Task System**: Define research missions in natural language and let the agent automatically plan and execute the analysis
+- **MOP Document Analysis**: Upload Method of Procedure (MOP) documents for automated ITIL 4 compliance assessment and gap analysis
 - **ITIL 4 Framework Integration**: Built-in understanding of ITIL 4 principles, dimensions, and change enablement best practices
-- **Intelligent Mission Planning**: Automatically breaks down complex missions into logical, executable steps
+- **Intelligent Mission Planning**: Automatically breaks down complex missions into logical, executable steps (adapts based on uploaded documents)
 - **Web Research Capability**: Integrates with Tavily API for comprehensive web-based research
 - **Real-Time Progress Tracking**: Watch your mission execute step-by-step with live progress indicators
 - **Comprehensive Reporting**: Generates detailed reports with executive summaries, findings, risks, and recommendations
@@ -124,6 +125,44 @@ A sophisticated web-based AI agent designed to conduct research and analysis for
    - Export as JSON for programmatic access
    - Click "New Mission" to start another analysis
 
+### Uploading MOP Documents (Optional)
+
+The agent can analyze existing Method of Procedure (MOP) documents, runbooks, or change documentation to assess ITIL 4 compliance and identify gaps.
+
+1. **Upload a Document**:
+   - Click the upload area or drag and drop a file
+   - Supported formats: TXT, MD, JSON, PDF (max 10MB)
+   - A sample MOP is included: `sample-mop.txt`
+
+2. **Automatic Analysis**:
+   The agent immediately analyzes the document for:
+   - **Document Type**: MOP, Runbook, Change Request, etc.
+   - **Step Count**: Number of procedures identified
+   - **Key Characteristics**: Rollback procedures, validation steps, risk assessment
+   - **ITIL 4 Alignment Score**: 0-100% compliance score
+   - **Strengths**: What the document does well
+   - **Gaps**: Missing or incomplete sections
+
+3. **Enhanced Mission Planning**:
+   When a document is uploaded, the mission planning automatically:
+   - Adds a step to analyze the MOP against ITIL 4 standards
+   - Identifies gaps (e.g., missing rollback procedures)
+   - Generates research steps to fill identified gaps
+   - Validates procedures against industry best practices
+
+4. **Example Flow with MOP**:
+   - Upload `sample-mop.txt` (database migration MOP)
+   - Enter mission: *"Validate this database migration procedure"*
+   - Agent creates customized steps including:
+     - MOP document compliance analysis
+     - Gap-specific research (if gaps found)
+     - Procedure validation against standards
+     - Industry best practices comparison
+
+5. **Remove Document**:
+   - Click the trash icon to remove the uploaded document
+   - Mission planning reverts to standard mode
+
 ### Example Missions
 
 **Change Risk Assessment**:
@@ -185,11 +224,20 @@ certification for our SaaS application
 - Formats and normalizes search results
 - Provides ITIL 4-enhanced search capabilities
 
+#### **document-parser.js**
+- Parses uploaded MOP documents (TXT, MD, JSON, PDF)
+- Analyzes document structure and content
+- Identifies procedures, rollback plans, validation steps
+- Calculates ITIL 4 alignment scores
+- Extracts key sections for targeted analysis
+
 #### **mission-planner.js**
 - Analyzes mission descriptions
 - Breaks missions into logical steps
 - Generates appropriate search queries
 - Applies ITIL 4 knowledge to planning
+- Adapts planning based on uploaded documents
+- Creates gap-specific research steps for MOPs
 
 #### **step-executor.js**
 - Executes research steps sequentially

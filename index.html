@@ -97,6 +97,90 @@
                         </div>
                     </div>
 
+                    <!-- Document Upload Section -->
+                    <div class="document-upload-section">
+                        <div class="upload-header">
+                            <h3>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="12" y1="18" x2="12" y2="12"/>
+                                    <line x1="9" y1="15" x2="15" y2="15"/>
+                                </svg>
+                                Upload MOP Document (Optional)
+                            </h3>
+                            <p class="upload-description">
+                                Upload a Method of Procedure, runbook, or change document to analyze alongside your mission.
+                            </p>
+                        </div>
+
+                        <div class="upload-dropzone" id="upload-dropzone">
+                            <input 
+                                type="file" 
+                                id="file-input" 
+                                accept=".txt,.md,.json,.pdf"
+                                hidden
+                            />
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <p class="upload-text">
+                                <strong>Click to upload</strong> or drag and drop
+                            </p>
+                            <p class="upload-hint">
+                                TXT, MD, JSON, or PDF (Max 10MB)
+                            </p>
+                        </div>
+
+                        <!-- Uploaded Document Display -->
+                        <div class="uploaded-document hidden" id="uploaded-document">
+                            <div class="document-card">
+                                <div class="document-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                    </svg>
+                                </div>
+                                <div class="document-info">
+                                    <h4 id="document-name">Document.txt</h4>
+                                    <p id="document-meta">Type: MOP | Steps: 0 | Size: 0 KB</p>
+                                    <div class="document-characteristics" id="document-characteristics">
+                                        <!-- Characteristics will be added dynamically -->
+                                    </div>
+                                </div>
+                                <button id="remove-document" class="icon-button" title="Remove document">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="3 6 5 6 21 6"/>
+                                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <!-- ITIL 4 Alignment Score -->
+                            <div class="document-alignment" id="document-alignment">
+                                <h4>ITIL 4 Alignment Assessment</h4>
+                                <div class="alignment-score">
+                                    <div class="score-bar">
+                                        <div class="score-fill" id="document-score-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="score-value" id="document-score-value">0%</span>
+                                </div>
+                                <div class="alignment-details">
+                                    <div class="alignment-strengths" id="alignment-strengths">
+                                        <h5>Strengths</h5>
+                                        <ul></ul>
+                                    </div>
+                                    <div class="alignment-gaps" id="alignment-gaps">
+                                        <h5>Improvement Areas</h5>
+                                        <ul></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- ITIL 4 Quick Reference -->
                     <div class="quick-reference">
                         <h3>ITIL 4 Quick Reference</h3>
@@ -289,6 +373,7 @@
     <!-- Scripts -->
     <script type="module" src="tavily-client.js"></script>
     <script type="module" src="state-manager.js"></script>
+    <script type="module" src="document-parser.js"></script>
     <script type="module" src="mission-planner.js"></script>
     <script type="module" src="step-executor.js"></script>
     <script type="module" src="results-renderer.js"></script>
