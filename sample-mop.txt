@@ -1,0 +1,88 @@
+Method of Procedure (MOP)
+Database Migration to Cloud Infrastructure
+
+Document Version: 1.0
+Date: 2025-10-31
+Prepared By: IT Operations Team
+
+OBJECTIVE
+Migrate the customer database from on-premises infrastructure to AWS RDS while minimizing downtime and ensuring data integrity.
+
+PREREQUISITES
+- AWS RDS instance provisioned and configured
+- Database backup completed and verified
+- Network connectivity between on-premises and AWS established
+- All stakeholders notified of maintenance window
+- Rollback plan reviewed and approved
+- Testing environment validated
+
+IMPLEMENTATION PROCEDURE
+
+Step 1: Pre-Migration Checks
+Verify that all prerequisites are met. Confirm backup integrity and test restore capability. Ensure all application connections are documented.
+
+Step 2: Enable Maintenance Mode
+Place application in maintenance mode to prevent new transactions. Display maintenance page to users. Confirm no active database connections remain.
+
+Step 3: Final Database Backup
+Perform final full backup of production database. Verify backup completion and integrity. Store backup in secure location with retention policy applied.
+
+Step 4: Database Export
+Export database using approved tools (mysqldump or pg_dump). Validate export file completeness. Calculate and record checksums for verification.
+
+Step 5: Transfer to AWS
+Upload database export to S3 bucket. Verify transfer completion using checksum validation. Ensure encryption at rest is enabled.
+
+Step 6: Import to RDS
+Import database to AWS RDS instance. Monitor import progress and log any warnings or errors. Validate row counts and key tables.
+
+Step 7: Configuration Update
+Update application configuration to point to new RDS endpoint. Update connection strings and credentials. Verify SSL/TLS settings.
+
+Step 8: Initial Testing
+Perform smoke tests on critical functionality. Verify data integrity and application connectivity. Test read and write operations.
+
+VALIDATION STEPS
+1. Compare row counts between source and target databases
+2. Verify critical application functions are operational
+3. Test user authentication and authorization
+4. Confirm reporting queries return expected results
+5. Validate API endpoints respond correctly
+6. Monitor error logs for anomalies
+
+ROLLBACK PROCEDURE
+In the event of critical issues:
+1. Place application back in maintenance mode
+2. Restore application configuration to point to original database
+3. Verify original database is accessible and consistent
+4. Remove maintenance mode and monitor
+5. Document issues encountered for root cause analysis
+
+RISKS AND MITIGATION
+Risk: Data loss during migration
+Mitigation: Multiple backups, checksum validation, and staged approach
+
+Risk: Extended downtime beyond maintenance window
+Mitigation: Comprehensive testing in staging, rollback plan ready
+
+Risk: Application compatibility issues with new database
+Mitigation: Thorough testing in staging environment, phased cutover
+
+COMMUNICATION PLAN
+- T-24 hours: Notify all stakeholders of upcoming maintenance
+- T-2 hours: Send reminder to users
+- T-0: Begin maintenance, update status page
+- T+completion: Announce completion and restoration of service
+- Post-migration: Send summary report to stakeholders
+
+SUCCESS CRITERIA
+- Database fully migrated with zero data loss
+- All applications connecting successfully to new database
+- Performance metrics within acceptable ranges
+- No critical errors in application logs
+- Maintenance window completed within allocated time
+
+APPROVAL
+Project Manager: _________________ Date: _______
+Database Administrator: ___________ Date: _______
+Change Manager: __________________ Date: _______
